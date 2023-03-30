@@ -5,10 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Cart için, cookie session için bunu ekledik.
+//For Cookies and Cart.
 builder.Services.AddSession();
 
-//TR karakterler için, bunu da ekledik.
+//for Turkish characters.
 builder.Services.AddWebEncoders(o =>
 {
     o.TextEncoderSettings = new System.Text.Encodings.Web.TextEncoderSettings(UnicodeRanges.All);
@@ -27,7 +27,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseSession(); //ekledik.
+app.UseSession(); //added.
 
 app.UseRouting();
 
