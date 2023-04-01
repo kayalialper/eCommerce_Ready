@@ -16,21 +16,23 @@
                             <p>If you are already registered, please login directly here:</p>
                             <ul class="form-list">
                                 <li>
-                                    <label class="required" asp-for="Email"><em>*</em></label>
+                                    <label class="required" asp-for="Email"></label>
                                     <div class="input-box" id="com-form-login-username">
-                                        <input type="text" placeholder="EMail" asp-for="Email" class="inputbox" maxlength="100" required>
+                                        <input type="text" placeholder="admin@template.com" asp-for="Email" class="inputbox" maxlength="100" required>
                                     </div>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </li>
 
                                 <li>
-                                    <label class="required" asp-for="Password"><em>*</em></label>
+                                    <label class="required" asp-for="Password"></label>
                                     <div class="input-box" id="com-form-login-password">
-                                        <input type="password" placeholder="Şifre" asp-for="Password" class="inputbox" id="modlgn-passwd" maxlength="100" required>
+                                        <input type="password" placeholder="admin" asp-for="Password" class="inputbox" id="modlgn-passwd" maxlength="100" required>
                                     </div>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </li>
                             </ul>
+                            <p>For ADMIN login: admin@template.com | admin</p>
+                            <p>For USER login: login@user.com | user</p>
                         </fieldset>
                         <div class="buttons-set">
                             <input type="submit" value="Login" class="vina-button" name="Submit">

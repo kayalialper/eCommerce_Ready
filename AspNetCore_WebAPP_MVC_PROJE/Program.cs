@@ -14,6 +14,9 @@ builder.Services.AddWebEncoders(o =>
     o.TextEncoderSettings = new System.Text.Encodings.Web.TextEncoderSettings(UnicodeRanges.All);
 });
 
+//to show User mail under main page logo.
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

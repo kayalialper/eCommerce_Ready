@@ -16,7 +16,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
             return usr;
         }
 
-        //SHOPPING USER LOGIN CONTROL
+        //REGULAR USER LOGIN CONTROL
         public User? SelectUserInfo(string userInfo)
         {
             User? user = context.Users.FirstOrDefault(u => u.Email == userInfo);
@@ -75,6 +75,40 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
                 sb.Append(item.ToString("x2").ToLower());
             }
             return sb.ToString();
+        }
+
+        //USER MAIL TAKEN ?
+        public bool RegisterEmailControl(User user)
+        {
+            User? mail = context.Users.FirstOrDefault(u => u.Email == user.Email);
+
+            if (mail == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        //USER REGISTER
+        public bool AddUser(User user)
+        {
+            try
+            {
+                user.Active = true;
+                user.IsAdmin = false;
+                user.Password = MD5PassConverter(user.Password);
+
+                context.Add(user);
+                context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
     }
 }

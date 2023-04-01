@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Category>
-
+@inject IHttpContextAccessor Accessor
 <!-- start preloader -->
 <div id="loader-wrapper">
     <div class="logo"></div>
@@ -16,10 +16,10 @@
                     <a href="/Home/Index"><img src="~/img/logo.png" alt="logo" /> </a>
                 </div>
 
-                @*@if (HttpContext.Session.GetString("UserInfo").ToString() != "")
-                {
-                    <span style="background-color:white;color:red;font-size:20px;">@Session["email"]</span>
-                }*@
+                @{
+                    var username = Accessor.HttpContext.Session.GetString("UserInfo");
+                }
+                <p>@username</p>
 
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9">

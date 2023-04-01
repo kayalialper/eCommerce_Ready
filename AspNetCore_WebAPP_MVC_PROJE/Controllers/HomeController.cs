@@ -237,26 +237,6 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
             return View();
         }
         #endregion
-        
-        #region ORDER - PROCEED CHECKOUT
-        public IActionResult Order()
-        {
-            //HttpContext.Session.SetString("Session", "deneme");
-            //HttpContext.Session.GetString("Email");
-
-            if (HttpContext.Session.GetString("UserInfo") != null)
-            {
-                //Session had already started. Get the user info.
-                User? usr = cu.SelectUserInfo(HttpContext.Session.GetString("UserInfo"));
-                return View();
-            }
-            else
-            {
-                //Session had not started yet. Need to login and start session.
-                return RedirectToAction(nameof(Login));
-            }
-        }
-        #endregion
 
         #region USER LOGIN
         public IActionResult Login()
@@ -271,7 +251,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 
             if (answer == "not found")
             {
-                TempData["Message"] = "Message\",\"Email or Password is not correct !";
+                TempData["Message"] = "Email or Password is not correct !";
 
                 return View();
             }
@@ -281,16 +261,38 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
                 HttpContext.Session.SetString("UserInfo", answer);
                 HttpContext.Session.SetString("Admin", answer);
 
-                return RedirectToAction("GeneralIndex","Admin");
+                return RedirectToAction("GeneralIndex", "Admin");
             }
 
             else
             {
-                HttpContext.Session.SetString("UserInfo",answer);
+                HttpContext.Session.SetString("UserInfo", answer);
                 return RedirectToAction(nameof(Index));
             }
         }
         #endregion
+
+        #region ORDER - PROCEED CHECKOUT
+        public IActionResult Order()
+        {
+            //HttpContext.Session.SetString("Session", "deneme");
+            //HttpContext.Session.GetString("Email");
+
+            if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                //Session had already started. Get the user info.
+                User? usr = cu.SelectUserInfo(HttpContext.Session.GetString("UserInfo"));
+                return View(usr);
+            }
+            else
+            {
+                //Session had not started yet. Need to login and start session.
+                return RedirectToAction(nameof(Login));
+            }
+        }
+        #endregion
+
+        
 
         #region USER REGISTER
         public IActionResult Register()
@@ -301,8 +303,34 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         [HttpPost]
         public IActionResult Register(User user)
         {
+            if (cu.RegisterEmailControl(user) == false)
+            {
+                bool answer = cu.AddUser(user);
+
+                if (answer)
+                {
+                    TempData["Message"] = "You have successfully Signed-Up to alperkayali.com !";
+                    return RedirectToAction(nameof(Login));
+                }
+            }
+
+            else
+            {
+                TempData["Message"] = "The E-Mail adress given is already registered.";
+            }
             return View();
         }
         #endregion
+
+        #region USER LOGOUT
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Remove("UserInfo");
+            HttpContext.Session.Remove("Admin");
+            return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+
     }
 }
