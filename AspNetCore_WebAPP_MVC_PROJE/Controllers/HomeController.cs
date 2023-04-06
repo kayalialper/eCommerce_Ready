@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging;
 using PagedList.Core;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Specialized;
+using System.Text;
 
 namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 {
@@ -284,15 +286,119 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
                 User? usr = cu.SelectUserInfo(HttpContext.Session.GetString("UserInfo"));
                 return View(usr);
             }
+
             else
             {
                 //Session had not started yet. Need to login and start session.
                 return RedirectToAction(nameof(Login));
             }
         }
+        
+
+        [HttpPost]
+        public IActionResult Order(IFormCollection frm)
+        {                        //or instead (IFormCollection frm); (string frm)
+                                 //then get the data as: Request.Form["CreditCartNo"]; etc
+            string txt_individual = frm["txt_individual"];
+            string txt_corporate = frm["txt_corporate"];
+
+            if (txt_individual != null)
+            {
+                //DigitalPlanet codes here
+                co.tckimlik_or_vergino = txt_individual;
+                co.InvoiceCreate();
+            }
+
+            else
+            {
+                co.tckimlik_or_vergino = txt_corporate;
+                co.InvoiceCreate();
+            }
+
+            string CreditCartNo = frm["CreditCartNo"];
+            string ExpireMonth = frm["ExpireMonth"];
+            string ExpireYear = frm["ExpireYear"];
+            string CVV = frm["CVV"];
+
+            #region EXAMPLE PAYU PAYMENT CODES will be like that:
+
+            //NameValueCollection data = new NameValueCollection();
+            //string url = "https://www.alperkayali.com/backhref";
+
+            //data.Add("BACK_REF", url);
+            //data.Add("CC_CVV", CVV);
+            //data.Add("CC_NUMBER", CreditCartNo);
+            //data.Add("EXP_MONTH", ExpireMonth);
+            //data.Add("EXP_YEAR", "20" + ExpireYear);
+
+            //var val = "";
+            //foreach (var item in data)
+            //{
+            //    var value = item as string;
+            //    var byteCount = Encoding.UTF8.GetByteCount(data.Get(value));
+            //    val += byteCount + data.Get(value);
+            //}
+
+            //var signatureKey = "SECRET_KEY"; //key will be provided by PAYU like firms.
+            //var hash = HashWithSignature(val, signatureKey);
+
+            //data.Add("ORDER_HASH", hash);
+
+            //var x = POSTFormPAYU("https://secure.payu.com.tr/order/.....", data); //we can get this link from DB dynamically.
+
+            //if (x.Contains("<STATUS>SUCCESS</STATUS>") && x.Contains("<RETURN_CODE>3DS_ENROLLED</RETURN_CODE>"))
+            //{
+            //    //virtual cart payment.
+            //}
+            //else
+            //{
+            //    //real cart payment.
+            //}
+            #endregion
+
+            return RedirectToAction("backhref");
+        }
         #endregion
 
-        
+        public IActionResult backhref()
+        {
+            Confirm_Payment();
+            return RedirectToAction("PayConclusion");
+        }
+
+        public string OrderGroupGUID = "";
+        public IActionResult Confirm_Payment()
+        {
+            //Will be deleted from cart cookie and added to order table.
+            //E-Invoice method will be called.
+            var cookieOptions = new CookieOptions();
+            var cookie = Request.Cookies["myCart"];
+            if (cookie != null)
+            {
+                co.MyCart = cookie;
+                OrderGroupGUID = co.OrderCreate(HttpContext.Session.GetString("UserInfo").ToString());
+
+                cookieOptions.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Delete("myCart");
+
+                //cu.SendSMS(OrderGroupGUID);
+                //cu.SendEmail(OrderGroupGUID);
+            }
+
+            return RedirectToAction("PayConclusion");
+        }
+
+        #region EXAMPLE PAYU METHODS FOR PAYMENT
+        //public string HashWithSignature(string val, string signatureKey)
+        //{
+        //    return "";
+        //}
+
+        //public string POSTFormPAYU(string url, NameValueCollection data)
+        //{
+        //    return "";
+        //}
+        #endregion
 
         #region USER REGISTER
         public IActionResult Register()

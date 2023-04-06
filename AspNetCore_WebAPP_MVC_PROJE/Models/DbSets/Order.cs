@@ -14,6 +14,5 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.DbSets
         public int UserID { get; set; }
         public int ProductID { get; set; }
         public int Quantity { get; set; }
-
     }
 }

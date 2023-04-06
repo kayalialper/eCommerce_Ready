@@ -1,4 +1,5 @@
 ﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbSets;
+using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 
 namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
@@ -15,6 +16,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
         public int KDV { get; set; }
         public decimal UnitPrice { get; set; }
         public string? PhotoPath { get; set; }
+        public string? tckimlik_or_vergino { get; set; }
         #endregion
 
         #region ADD TO CART
@@ -121,7 +123,40 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
         }
         #endregion
 
+        #region ORDER CREATE
+        public string OrderCreate(string Email)
+        {
+            List<cls_Order> orderList = SelectMyCart();
 
+            string OrderGroupGUID = DateTime.Now.ToString().Replace(":", "").Replace(" ", "").Replace(".", "");
+            DateTime OrderDate = DateTime.Now;
+
+            foreach (var item in orderList)
+            {
+                Order order = new Order();
+
+                order.OrderDate = OrderDate;
+                order.OrderGroupGUID = OrderGroupGUID;
+                order.UserID = context.Users.FirstOrDefault(u => u.Email == Email).UserID;
+                order.ProductID = item.ProductID;
+                order.Quantity = item.Quantity;
+
+                context.Orders.Add(order);
+                context.SaveChanges();
+            }
+            return OrderGroupGUID;
+        }
+        #endregion
+
+        #region INVOICE CREATE
+        public void InvoiceCreate()
+        {
+            //DigitalPlanet'e gönderilmek üzere fatura oluşturan (xml format) method kodları.
+            //Daha önceki derste işlediğimiz yerden kopyala.
+
+            //tckimlik_or_vergino
+        }
+        #endregion
 
 
 
