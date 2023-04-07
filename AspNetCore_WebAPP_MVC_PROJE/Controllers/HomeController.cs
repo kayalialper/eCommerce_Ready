@@ -1,5 +1,6 @@
 ﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbSets;
 using AspNetCore_WebAPP_MVC_PROJE.Models.MVVM;
+using AspNetCore_WebAPP_MVC_PROJE.Models.DbViews;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging;
 using PagedList.Core;
@@ -293,7 +294,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
                 return RedirectToAction(nameof(Login));
             }
         }
-        
+
 
         [HttpPost]
         public IActionResult Order(IFormCollection frm)
@@ -360,13 +361,14 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         }
         #endregion
 
+        #region ORDER CONCLUSION
         public IActionResult backhref()
         {
             Confirm_Payment();
             return RedirectToAction("PayConclusion");
         }
 
-        public string OrderGroupGUID = "";
+        public static string OrderGroupGUID = "";
         public IActionResult Confirm_Payment()
         {
             //Will be deleted from cart cookie and added to order table.
@@ -381,12 +383,14 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
                 cookieOptions.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Delete("myCart");
 
+                //Don't have mail or sms sending subscription yet. So they're closed for now.
                 //cu.SendSMS(OrderGroupGUID);
-                //cu.SendEmail(OrderGroupGUID);
+                //cu.SendEMAIL(OrderGroupGUID);
             }
 
             return RedirectToAction("PayConclusion");
         }
+        #endregion
 
         #region EXAMPLE PAYU METHODS FOR PAYMENT
         //public string HashWithSignature(string val, string signatureKey)
@@ -398,6 +402,30 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         //{
         //    return "";
         //}
+        #endregion
+
+        #region PAYMENT CONCLUSION
+        public IActionResult PayConclusion()
+        {
+            ViewBag.OrderGroupGUID = OrderGroupGUID;
+            return View();
+        }
+        #endregion
+
+        #region MY ORDERS
+        public IActionResult MyOrders()
+        {
+            if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                List<vw_MyOrders> orders = co.SelectMyOrders(HttpContext.Session.GetString("UserInfo").ToString());
+                return View(orders);
+            }
+
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
         #endregion
 
         #region USER REGISTER
@@ -436,7 +464,5 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
             return RedirectToAction(nameof(Index));
         }
         #endregion
-
-
     }
 }

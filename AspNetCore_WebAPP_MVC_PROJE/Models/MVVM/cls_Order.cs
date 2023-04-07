@@ -1,4 +1,5 @@
 ﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbSets;
+using AspNetCore_WebAPP_MVC_PROJE.Models.DbViews;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 
@@ -158,7 +159,13 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
         }
         #endregion
 
+        public List<vw_MyOrders> SelectMyOrders(string Email)
+        {
+            int UserID = context.Users.FirstOrDefault(u => u.Email == Email).UserID;
 
+            List<vw_MyOrders> myOrders = context.vw_MyOrders.Where(o=>o.UserID == UserID).ToList();
+            return myOrders;
+        }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbViews;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCore_WebAPP_MVC_PROJE.Models.DbSets
 {
@@ -20,8 +21,8 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.DbSets
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
-
         public DbSet<Content> Contents { get; set; }
+        public DbSet<vw_MyOrders> vw_MyOrders { get; set; }
 
     }
 }

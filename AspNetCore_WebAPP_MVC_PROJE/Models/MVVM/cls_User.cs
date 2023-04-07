@@ -1,5 +1,7 @@
 ﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbSets;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using XSystem.Security.Cryptography;
 
@@ -9,10 +11,15 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
     {
         KayaliContext context = new KayaliContext();
 
+        #region LOGIN CONTROL METHODS
+
         //ADMIN PANEL LOGIN CONTROL
         public async Task<User> LoginControl(User user)
         {
-            User? usr = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password && u.IsAdmin == true && u.Active == true);
+            string MD5Password = MD5PassConverter(user.Password);
+
+            User? usr = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == MD5Password && u.IsAdmin == true && u.Active == true);
+
             return usr;
         }
 
@@ -22,6 +29,8 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
             User? user = context.Users.FirstOrDefault(u => u.Email == userInfo);
             return user;
         }
+        #endregion
+
 
         public string MemberControl(User user)
         {
@@ -108,7 +117,115 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
             {
                 return false;
             }
-            
+
         }
+
+
+        #region SMS and Email SENDERS
+        //Example SMS firm xml communication
+        public void SendSMS(string OrderGroupGUID)
+        {
+            string ss = "";
+            ss += "<?xml version='1.0' encoding='UTF-8'>";
+            ss += "<mainbody>";
+            ss += "<header>";
+            ss += "<company dil=TR>alperkayali.com</company>";
+            ss += "<usercode>0850 and given user code here</usercode>";
+            ss += "<password>NetGSM123 example password</password>";
+            ss += "<startdate></startdate>";
+            ss += "<stopdate></stopdate>";
+            ss += "<type>n:n how many people will receive this SMS ?</type>";
+            ss += "<msgheader>HEADER</msgheader>";
+            ss += "</header>";
+            ss += "<body>";
+
+            Order order = context.Orders.FirstOrDefault(o => o.OrderGroupGUID == OrderGroupGUID);
+            User user = context.Users.FirstOrDefault(u => u.UserID == order.UserID);
+
+            string content = "Dear " + user.NameSurname + ", your order has been set with the number of" + OrderGroupGUID + " at " + DateTime.Now;
+
+            ss += "<mp><msg><![CDATA[" + content + "]]></msg><no>90" + user.Telephone + "</no></mp>";
+            ss += "</body>";
+            ss += "</mainbody>";
+
+            string answer = XMLPOST("https://api.netgsm.com/tr/xmlbulkhttppost.asp", ss);
+            if (answer != "-1")
+            {
+                //sms has been sent.
+            }
+            else { /*fail*/ }
+        }
+
+        public string XMLPOST(string url, string xmlData)
+        {
+            try
+            {
+                WebClient wUpload = new WebClient();
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                Byte[] bPostArray = Encoding.UTF8.GetBytes(xmlData);
+                Byte[] bResponse = wUpload.UploadData(url, "POST", bPostArray);
+
+                Char[] sReturnsChars = Encoding.UTF8.GetChars(bResponse);
+
+                string sWebPage = new string(sReturnsChars);
+                return sWebPage;
+            }
+
+            catch (Exception)
+            {
+                return "-1";
+            }
+        }
+
+        public void SendEMAIL(string OrderGroupGUID)
+        {
+            Order order = context.Orders.FirstOrDefault(o => o.OrderGroupGUID == OrderGroupGUID);
+
+            string mail = "sender Email is here"; //must be taken from DB, dynamically.
+
+            User user = context.Users.FirstOrDefault(u => u.UserID == order.UserID);
+
+            string _mail = user.Email;
+            string subject = "";
+            string content = "";
+
+            content = "Dear " + user.NameSurname + ", your order has been set with the number of" + OrderGroupGUID + " at " + DateTime.Now;
+            subject = "Dear " + user.NameSurname + ", your order is being prepared.";
+
+            //below four must stay in a table on DB.
+            string host = "smtp.alperkayali.com";
+            int port = 587;
+            string login = "admin";
+            string password = "adminPass";
+
+            MailMessage eMail = new MailMessage();
+            eMail.From = new MailAddress(mail, "alperkayali info");//sender
+            eMail.To.Add(_mail); //receiver
+            eMail.Subject = subject;
+            eMail.IsBodyHtml = true;
+            eMail.Body = content;
+
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.Credentials = new NetworkCredential(login, password);
+            smtpClient.Port = port;
+            smtpClient.Host = host;
+
+            try
+            {
+                smtpClient.Send(eMail);
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        #endregion
+
+
     }
 }
