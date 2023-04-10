@@ -22,7 +22,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 
         public HomeController()
         {
-            this.mainpageCount = context.Settings.FirstOrDefault(s => s.SettingID == 1).mainpageCount;
+            mainpageCount = context.Settings.FirstOrDefault(s => s.SettingID == 1).mainpageCount;
         }
 
         //Any single product.
@@ -464,5 +464,50 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
             return RedirectToAction(nameof(Index));
         }
         #endregion
+
+        #region DETAILED SEARCH
+        public IActionResult DetailedSearch()
+        {
+            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Suppliers = context.Suppliers.ToList();
+            return View();
+        }
+
+        public IActionResult DetSearchedProducts(int CategoryID, string[] SupplierID, string price, string IsInStock)
+        {
+            price = price.Replace(" ", "");
+            string[] PriceArray = price.Split("-");
+            string startPrice = PriceArray[0];
+            string endPrice = PriceArray[1];
+
+            string sign = ">";
+            if (IsInStock == "0")
+            {
+                sign = ">=";
+            }
+
+            int count = 0;
+            string supplierValue = "";
+            for (int i = 0; i < SupplierID.Length; i++)
+            {
+                if (count == 0)
+                {
+                    supplierValue = "SupplierID =" + SupplierID[i];
+                    count++;
+                }
+
+                else
+                {
+                    supplierValue += " or SupplierID =" + SupplierID[i];
+                }
+            }
+
+            string query = " select * from Products where CategoryID = " + CategoryID + " and ("+ supplierValue +") and (UnitPrice "+ sign +" "+ startPrice +" and UnitPrice < "+ endPrice +") and Stock "+ sign +" 0 order by ProductName";
+
+            ViewBag.Products = cp.DetailedProductSearch(query);
+            return View();
+        }
+        #endregion
+
     }
 }

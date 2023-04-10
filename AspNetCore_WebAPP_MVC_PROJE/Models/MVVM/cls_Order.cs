@@ -166,6 +166,5 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
             List<vw_MyOrders> myOrders = context.vw_MyOrders.Where(o=>o.UserID == UserID).ToList();
             return myOrders;
         }
-
     }
 }

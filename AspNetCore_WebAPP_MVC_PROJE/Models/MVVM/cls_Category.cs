@@ -84,46 +84,46 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
         }
 
 
-        public string DelMainCatg(int id)
-        {
-            //First, to delete sub-categories BELONG to the MAIN CATEGORY:
-            List<Category> subCategories = context.Categories.Where(c => c.ParentID == id).ToList();
-            foreach (var item in subCategories)
-            {
-                context.Categories.Remove(item);
-                context.SaveChanges();
-            }
+        #region not using
+        //public string DelMainCatg(int id)
+        //{
+        //    //First, to delete sub-categories BELONG to the MAIN CATEGORY:
+        //    List<Category> subCategories = context.Categories.Where(c => c.ParentID == id).ToList();
+        //    foreach (var item in subCategories)
+        //    {
+        //        context.Categories.Remove(item);
+        //        context.SaveChanges();
+        //    }
 
-            //Then, to delete MAIN CATEGORY chosen
-            Category? mainCategories = context.Categories.FirstOrDefault(c => c.CategoryID == id);
-            if (mainCategories != null)
-            {
-                context.Categories.Remove(mainCategories);
-                context.SaveChanges();
-                return "Main Category and it's Sub-Categories are DELETED PERMANENTLY.";
-            }
-            else
-            {
-                return "Category is EMPTY !";
-            }
+        //    //Then, to delete MAIN CATEGORY chosen
+        //    Category? mainCategories = context.Categories.FirstOrDefault(c => c.CategoryID == id);
+        //    if (mainCategories != null)
+        //    {
+        //        context.Categories.Remove(mainCategories);
+        //        context.SaveChanges();
+        //        return "Main Category and it's Sub-Categories are DELETED PERMANENTLY.";
+        //    }
+        //    else
+        //    {
+        //        return "Category is EMPTY !";
+        //    }
 
-        }
+        //}
+        //public string DelSubCatg(int id)
+        //{
+        //    Category? subCategory = context.Categories.FirstOrDefault(c => c.CategoryID == id);
+        //    if (subCategory != null)
+        //    {
+        //        context.Categories.Remove(subCategory);
+        //        context.SaveChanges();
+        //        return "Sub-Category is DELETED PERMANENTLY.";
+        //    }
+        //    else
+        //    {
+        //        return "Sub-Category is EMPTY !";
+        //    }
 
-
-        public string DelSubCatg(int id)
-        {
-            Category? subCategory = context.Categories.FirstOrDefault(c => c.CategoryID == id);
-            if (subCategory != null)
-            {
-                context.Categories.Remove(subCategory);
-                context.SaveChanges();
-                return "Sub-Category is DELETED PERMANENTLY.";
-            }
-            else
-            {
-                return "Sub-Category is EMPTY !";
-            }
-
-        }
+        //}
+        #endregion
     }
 }
