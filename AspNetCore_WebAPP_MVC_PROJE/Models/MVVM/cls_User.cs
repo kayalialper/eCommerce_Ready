@@ -120,6 +120,26 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
 
         }
 
+        public User SelectUserDetails(int id)
+        {
+            User user = context.Users.FirstOrDefault(u=>u.UserID == id);
+            return user;
+        }
+
+        public bool UpdateUserInfo(User user)
+        {
+            try
+            {
+                context.Update(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
         #region SMS and Email SENDERS
         //Example SMS firm xml communication

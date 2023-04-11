@@ -37,13 +37,12 @@
                                             <th>Invoice Adress</th>
                                             <td><span class="amount">@Model.InvoicesAdress</span></td>
                                         </tr>
-
                                     </tbody>
                                 </table>
 
                                 <div class="container">
                                     <div class="submit_crt">
-                                        <a href="@Url.Action("InfoUpdate","Home")" title="Proceed to Checkout">
+                                        <a asp-action="UserInfoUpdate" asp-route-id="@Model.UserID" title="Proceed to Checkout">
                                             <input type="button" class="update_cart" value="Update Info" />
                                         </a>
                                     </div>

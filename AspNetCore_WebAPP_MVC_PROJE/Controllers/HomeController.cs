@@ -278,9 +278,6 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         #region ORDER - PROCEED CHECKOUT
         public IActionResult Order()
         {
-            //HttpContext.Session.SetString("Session", "deneme");
-            //HttpContext.Session.GetString("Email");
-
             if (HttpContext.Session.GetString("UserInfo") != null)
             {
                 //Session had already started. Get the user info.
@@ -462,6 +459,77 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
             HttpContext.Session.Remove("UserInfo");
             HttpContext.Session.Remove("Admin");
             return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+        #region USER INFO UPDATE
+        [HttpGet]
+        public IActionResult UserInfoUpdate(int id)
+        {
+
+            if (id == null || context.Users == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var user = cu.SelectUserDetails(id);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult UserInfoUpdate(User? user)
+        {
+            User? usr = context.Users.FirstOrDefault(s => s.UserID == user.UserID);
+            user.IsAdmin = usr.IsAdmin;
+            user.Active = usr.Active;
+                        
+            if (user.NameSurname == null)
+            {
+                string? nameSurname = context.Users.FirstOrDefault(s => s.UserID == user.UserID).NameSurname;
+                user.NameSurname = nameSurname;
+            }
+
+            if (user.Email == null)
+            {
+                string? email = context.Users.FirstOrDefault(u => u.UserID == user.UserID).Email;
+                user.Email = email;
+            }
+
+            if (user.Telephone == null)
+            {
+                string? telephone = context.Users.FirstOrDefault(u => u.UserID == user.UserID).Telephone;
+                user.Telephone = telephone;
+            }
+
+            if (user.InvoicesAdress == null)
+            {
+                string? invoiceAdress = context.Users.FirstOrDefault(u => u.UserID == user.UserID).InvoicesAdress;
+                user.InvoicesAdress = invoiceAdress;
+            }
+
+            if (cls_User.MD5PassConverter(user.Password) == usr.Password || cls_User.MD5PassConverter(user.Password) == null)
+            {
+                string? password = context.Users.FirstOrDefault(s => s.UserID == user.UserID).Password;
+                user.Password = password;
+            }
+
+            else
+            {
+                user.Password = cls_User.MD5PassConverter(user.Password);
+            }
+
+            bool answer = cu.UpdateUserInfo(user);
+            if (answer == true)
+            {
+                TempData["Message"] = "User informations have been UPDATED successfully.";
+                return RedirectToAction(nameof(Order));
+            }
+            else
+            {
+                TempData["Message"] = "ERROR ! User informations have been not been EDITED.";
+                return RedirectToAction(nameof(Order));
+            }
         }
         #endregion
 

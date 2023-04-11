@@ -430,7 +430,6 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         #endregion
 
         #region PRODUCT
-        //PRODUCTS PAGES BEGIN//
         public async Task<IActionResult> ProductIndex()
         {
             List<Product> products = await p.ProductSelect();

@@ -16,9 +16,9 @@
                     <a href="/Home/Index"><img src="~/img/logo.png" alt="logo" /> </a>
                 </div>
                 @{
-                    var username = Accessor.HttpContext.Session.GetString("UserInfo");
+                    var email = Accessor.HttpContext.Session.GetString("UserInfo");
                 }
-                <p>@username</p>
+                <p>@email</p>
 
                 <div class="row" style="margin-left:10px;">
                     <div>
@@ -231,7 +231,7 @@
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                 <div class="nk-search">
                     <div class="search_input">
-                        <input type="text" placeholder="Type and hit enter" />
+                        <input type="text" placeholder="Type and hit enter"/>
                     </div>
                 </div>
             </div>
