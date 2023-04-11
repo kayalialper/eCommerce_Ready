@@ -15,15 +15,23 @@
                 <div class="logo-area">
                     <a href="/Home/Index"><img src="~/img/logo.png" alt="logo" /> </a>
                 </div>
-
                 @{
                     var username = Accessor.HttpContext.Session.GetString("UserInfo");
                 }
                 <p>@username</p>
 
+                <div class="row" style="margin-left:10px;">
+                    <div>
+                        <span style="background-color:white; text-align:center;">@await Component.InvokeAsync("Currency")</span>
+                    </div>
+                    <div>
+                        <span style="background-color:white; text-align:center;">@await Component.InvokeAsync("Weather")</span>
+                    </div>
+                </div>
+
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9">
-                <div class="top-nav-area">
+                <div class="top-nav-area">                    
                     <ul>
                         <li>
                             <a href="/Home/NewProducts">
@@ -91,7 +99,6 @@
                                 </div>
                             </a>
                         </li>
-
 
                         <li>
                             <a href="/Home/Cart">
@@ -162,8 +169,8 @@
                             <a href="/Home/Index">WEB API LIST</a>
                             <div class="sp-dropdown-inner">
                                 <ul class="sp-dropdown-items">
-                                    <li class="sp-menu-item"><a href="index.html">PHARMACIES</a></li>
-                                    <li class="sp-menu-item"><a href="index-2.html">ART &amp; CULTURE</a></li>
+                                    <li class="sp-menu-item"><a href="/WebAPI/Pharmacies">Pharmacies On Call</a></li>
+                                    <li class="sp-menu-item"><a href="/WebAPI/ArtAndCulture">Art &amp; Culture</a></li>
                                     <li class="sp-menu-item"><a href="index-3.html">Home 3</a></li>
                                     <li class="sp-menu-item"><a href="index-4.html">Home 4</a></li>
                                     <li class="sp-menu-item"><a href="index-5.html">Home 5</a></li>
@@ -198,10 +205,6 @@
                                 <ul>
                                     <li><a href="index.html">PHARMACIES</a></li>
                                     <li><a href="index-2.html">ART &amp; CULTURE</a></li>
-                                    <li><a href="index-3.html">Home 3</a></li>
-                                    <li><a href="index-4.html">Home 4</a></li>
-                                    <li><a href="index-5.html">Home 5</a></li>
-                                    <li><a href="index-6.html">Home 6</a></li>
                                 </ul>
                             </li>
                             <li><a href="/Home/Login">LOGIN</a></li>

@@ -1,15 +1,25 @@
 ﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbSets;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
 {
     public class cls_Product
     {
-        MainPageModel mpm = new MainPageModel();
+        #region -- PROPS --
+
+        public int ProductID { get; set; }
+        public string? ProductName { get; set; }
+        public decimal UnitPrice { get; set; }
+        public string? PhotoPath { get; set; }
+
+        #endregion
+
         KayaliContext context = new KayaliContext();
 
         int subpageCount = 0;
 
+        #region PRODUCT CRUD METHODS
         public async Task<List<Product>> ProductSelect()
         {
             List<Product>? products = await context.Products.ToListAsync();
@@ -60,6 +70,8 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
                 return false;
             }
         }
+        #endregion
+
         public Product SpecialProductDetails(string mainPageName)
         {
             Product? product = context.Products.FirstOrDefault(p => p.StatusID == 6);
@@ -85,7 +97,8 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
             context.Update(product);
             context.SaveChanges();
         }
-        #region METHOD FOR ITEM LISTING PAGES
+
+        #region METHOD QUALIFIED (HEADER) PRODUCT PAGES
         public List<Product> ProductSelect(string mainPageName, int mainpageCount, string subpageName, int pageNumber)
         {
             subpageCount = context.Settings.FirstOrDefault(s => s.SettingID == 1).subpageCount;
@@ -231,7 +244,28 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
         }
         #endregion
 
-        
+        //DETAILED PRODUCT SEARCHING
+        public List<cls_Product> DetailedProductSearch(string query)
+        {
+            List<cls_Product> products = new List<cls_Product>();
+            SqlConnection sqlConnection = Connection.GetConnect;
+            SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+            sqlConnection.Open();
+            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+            while (sqlDataReader.Read())
+            {
+                cls_Product product = new cls_Product();
+                product.ProductID = Convert.ToInt32(sqlDataReader["ProductID"]);
+                product.ProductName = sqlDataReader["ProductName"].ToString();
+                product.UnitPrice = Convert.ToDecimal(sqlDataReader["UnitPrice"]);
+                product.PhotoPath = sqlDataReader["PhotoPath"].ToString();
+
+                products.Add(product);
+            }
+            return products;
+        }
+
 
 
     }

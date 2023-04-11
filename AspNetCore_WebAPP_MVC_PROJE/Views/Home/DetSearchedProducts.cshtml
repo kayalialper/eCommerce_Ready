@@ -1,19 +1,17 @@
-﻿@model MainPageModel
+﻿
 @{
-    ViewData["Title"] = "NewProducts";
+    ViewData["Title"] = "DetSearchedProducts";
     Layout = "~/Views/Shared/DefaultLayout.cshtml";
-    KayaliContext context = new KayaliContext();
-    int totalProducts = context.Products.Count();
 }
 
-<!-- Single product area start  -->
+<!-- Detailed Search Results area start  -->
 <div class="shop-wrapper">
     <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-9 col-lg-12">
                 <div class="back-to-category">
                     Listed in:
-                    <a title="New Products" class="product-details" href="/Home/NewProducts">New Products</a>
+                    <a title="Detailed Search Results" class="product-details" href="/Home/DetailedSearch">Detailed Search Results</a>
                 </div>
                 <div class="clear"></div>
                 <div class="row">
@@ -21,12 +19,12 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="rp-area">
                             <div class="all-p-title">
-                                <h3>NEW Products</h3>
+                                <h3>Detailed Search Results</h3>
                             </div>
                             <div class="singl-shop ">
                                 <div class="row">
-                                    <div id="products">
-                                        @foreach (var item in Model.NewProducts)
+                                    <div>
+                                        @foreach (var item in ViewBag.Products)
                                         {
                                             <!-- SP-SINGLE Product -->
                                             <div class="col-sm-6 col-md-3 col-lg-3">
@@ -37,7 +35,6 @@
                                                         <div class="quick-view-detail">
                                                             <a href="single-product.html#">View Detail</a>
                                                         </div>
-                                                        <div class="sp-label-pro sp-label-pro-hot">NEW</div>
                                                     </div>
                                                     <div class="sp-info-area">
                                                         <h2 class="product-name"><a href="single-product.html#" title="@item.ProductName">@item.ProductName</a></h2>
@@ -67,36 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div id="loadmoreProducts">
-                <div class="s-poraduct-botton">
-                    <input type="submit" name="name" value="Load More Products" id="loadMoreButton" />
-                </div>
-            </div>
-            <input type="hidden" id="pagenumber" value="0" />
         </div>
     </div>
 </div>
-<!--Single product area End  -->
-<script>
-    $(document).on("click", "#loadmoreProducts", function () {
-        var pagenumber = parseInt($("#pagenumber").val())
-        var nextpage = pagenumber + 1;
-
-        $.ajax({
-            type: "GET",
-            url: "/Home/_PartialNewProducts",
-            data: { pageno: nextpage },
-            async: true,
-            processData: true,
-            cache: true,
-            success: function (result) {
-                $("#products").append(result)
-                $("#pagenumber").val(+nextpage)
-
-                if ($("#products .sp-single").length === @totalProducts) {
-                    $("#loadMoreButton").val("You've listed all products.").click("disabled");
-                }
-            }
-        })
-    });
-</script>
+<!--Detailed Search Results End  -->
