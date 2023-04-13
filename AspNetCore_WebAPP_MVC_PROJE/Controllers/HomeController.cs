@@ -28,9 +28,42 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         //Any single product.
         public IActionResult ProductDetails(int id)
         {
+            //LINQ
+            mpm.DetailsOfProduct = (from p in context.Products where p.ProductID == id select p).FirstOrDefault();
+            //EF CORE
+            //mpm.DetailsOfProduct = context.Products.FirstOrDefault(p => p.ProductID == id);
+
+
+            //LINQ
+            mpm.CategoryName = (from p in context.Products 
+                                   join c in context.Categories 
+                                   on p.CategoryID equals c.CategoryID 
+                                   select c.CategoryName).FirstOrDefault();
+
+            mpm.CategoryID = (from p in context.Products
+                              join c in context.Categories
+                              on p.CategoryID equals c.CategoryID
+                              select c.CategoryID).FirstOrDefault();
+
+            //EF CORE
+            //        mpm.CategoryName = context.Products
+            //.Join(context.Categories,
+            //      p => p.CategoryID,
+            //      c => c.CategoryID,
+            //      (p, c) => c.CategoryName)
+            //.FirstOrDefault();
+
+            mpm.BrandName = (from p in context.Products
+                             join s in context.Suppliers
+                             on p.SupplierID equals s.SupplierID
+                             where p.ProductID == id
+                             select s.BrandName).FirstOrDefault();
+
+            mpm.RelatedProducts = context.Products.Where(p => p.Related == mpm.DetailsOfProduct.Related && p.ProductID != id).ToList();
+
             cp.Highlighted_Increase(id);
-            var prdDetails = cp.ProductDetails(id);
-            return View(prdDetails);
+
+            return View(mpm);
         }
 
         #region MainPageModel methods for Index Page
@@ -483,7 +516,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
             User? usr = context.Users.FirstOrDefault(s => s.UserID == user.UserID);
             user.IsAdmin = usr.IsAdmin;
             user.Active = usr.Active;
-                        
+
             if (user.NameSurname == null)
             {
                 string? nameSurname = context.Users.FirstOrDefault(s => s.UserID == user.UserID).NameSurname;
@@ -570,13 +603,26 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
                 }
             }
 
-            string query = " select * from Products where CategoryID = " + CategoryID + " and ("+ supplierValue +") and (UnitPrice "+ sign +" "+ startPrice +" and UnitPrice < "+ endPrice +") and Stock "+ sign +" 0 order by ProductName";
+            string query = " select * from Products where CategoryID = " + CategoryID + " and (" + supplierValue + ") and (UnitPrice " + sign + " " + startPrice + " and UnitPrice < " + endPrice + ") and Stock " + sign + " 0 order by ProductName";
 
             ViewBag.Products = cp.DetailedProductSearch(query);
             return View();
         }
         #endregion
 
-        
+        #region ABOUT US
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        #endregion
+
+        #region CONTACT US
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+        #endregion
+
     }
 }

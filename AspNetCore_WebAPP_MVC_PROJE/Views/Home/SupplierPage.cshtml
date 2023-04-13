@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "SupplierPage";
     Layout = "~/Views/Shared/DefaultLayout.cshtml";
+    KayaliContext context = new KayaliContext();
+    string BrandName = (from p in context.Products
+                           join s in context.Suppliers
+                           on p.CategoryID equals s.SupplierID
+                           select s.BrandName).FirstOrDefault();
 }
 
 <!-- Single product area start  -->
@@ -10,8 +15,8 @@
         <div class="row">
             <div class="col-sm-9 col-md-9 col-lg-12">
                 <div class="back-to-category">
-                    Listed in:
-                    <a title="Products by Brands" class="product-details" href="/Home/SupplierPage/">Products by Brand</a>
+                    Supplier:
+                    <a title="Products by chosen Supplier" class="product-details">@BrandName</a>
                 </div>
                 <div class="clear"></div>
                 <div class="row">
@@ -19,7 +24,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="rp-area">
                             <div class="all-p-title">
-                                <h3>Products by Brand</h3>
+                                <h3>Products of <b>@BrandName.ToUpper()</b></h3>
                             </div>
                             <div class="singl-shop ">
                                 <div class="row">

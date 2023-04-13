@@ -21,12 +21,7 @@
                 <p>@email</p>
 
                 <div class="row" style="margin-left:10px;">
-                    <div>
-                        <span style="background-color:white; text-align:center;">@await Component.InvokeAsync("Currency")</span>
-                    </div>
-                    <div>
-                        <span style="background-color:white; text-align:center;">@await Component.InvokeAsync("Weather")</span>
-                    </div>
+                    
                 </div>
 
             </div>
@@ -61,7 +56,7 @@
                                 <i class="fa fa-level-down"></i>
                                 <div class="nav-select">
                                     <div class="text_menu">
-                                        DISCOUNTED PRODUCTS
+                                        DISCOUNTEDS
                                     </div>
                                 </div>
                             </a>
@@ -116,7 +111,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 </div>
 
 
@@ -171,10 +166,6 @@
                                 <ul class="sp-dropdown-items">
                                     <li class="sp-menu-item"><a href="/WebAPI/Pharmacies">Pharmacies On Call</a></li>
                                     <li class="sp-menu-item"><a href="/WebAPI/ArtAndCulture">Art &amp; Culture</a></li>
-                                    <li class="sp-menu-item"><a href="index-3.html">Home 3</a></li>
-                                    <li class="sp-menu-item"><a href="index-4.html">Home 4</a></li>
-                                    <li class="sp-menu-item"><a href="index-5.html">Home 5</a></li>
-                                    <li class="sp-menu-item"><a href="index-6.html">Home 6</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -186,10 +177,16 @@
                         <li><a href="/Home/DetailedSearch">DETAILED SEARCH</a></li>
                         <li><a href="/Admin/Login">ADMIN PANEL</a></li>
                     </ul>
-                </nav>
-            </div>
+                </nav>                
+            </div>            
+        </div>
+        <div style="display:flex; height:100%; text-align:right;">
+            <span style="color:white;">@await Component.InvokeAsync("Currency")</span>
+            &emsp;
+            <span style="color:white;">@await Component.InvokeAsync("Weather")</span>
         </div>
     </div>
+    
 </div>
 <!-- main menu area end  -->
 <!-- mobile-menu-area start -->
@@ -201,10 +198,10 @@
                     <nav id="dropdown">
                         <ul>
                             <li>
-                                <a href="/Home/Index">WEB API LIST</a>
+                                <a>WEB API LIST</a>
                                 <ul>
-                                    <li><a href="index.html">PHARMACIES</a></li>
-                                    <li><a href="index-2.html">ART &amp; CULTURE</a></li>
+                                    <li><a href="/WebAPI/Pharmacies">PHARMACIES</a></li>
+                                    <li><a href="/WebAPI/ArtAndCulture">ART &amp; CULTURE</a></li>
                                 </ul>
                             </li>
                             <li><a href="/Home/Login">LOGIN</a></li>

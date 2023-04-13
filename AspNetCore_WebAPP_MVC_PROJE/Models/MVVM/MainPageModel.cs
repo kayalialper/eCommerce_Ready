@@ -14,6 +14,10 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
         public List<Product>? OpportunityProducts { get; set; }
         public List<Product>? AttentionedProducts { get; set; }
         public Product? ProductOfTheDay { get; set; }
-
+        public Product DetailsOfProduct { get; set; }
+        public string? CategoryName { get; set; }
+        public int CategoryID { get; set; }
+        public string BrandName { get; set; }
+        public List<Product> RelatedProducts { get; set; }
     }
 }
