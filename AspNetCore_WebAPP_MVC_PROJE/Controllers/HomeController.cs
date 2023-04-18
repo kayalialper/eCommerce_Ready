@@ -17,6 +17,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         cls_Product cp = new cls_Product();
         cls_Order co = new cls_Order();
         cls_User cu = new cls_User();
+        cls_Favourite cf = new cls_Favourite();
 
         int mainpageCount = 0;
 
@@ -35,10 +36,10 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 
 
             //LINQ
-            mpm.CategoryName = (from p in context.Products 
-                                   join c in context.Categories 
-                                   on p.CategoryID equals c.CategoryID 
-                                   select c.CategoryName).FirstOrDefault();
+            mpm.CategoryName = (from p in context.Products
+                                join c in context.Categories
+                                on p.CategoryID equals c.CategoryID
+                                select c.CategoryName).FirstOrDefault();
 
             mpm.CategoryID = (from p in context.Products
                               join c in context.Categories
@@ -607,6 +608,104 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 
             ViewBag.Products = cp.DetailedProductSearch(query);
             return View();
+        }
+        #endregion
+
+        #region FAVOURITED ITEMS
+        public IActionResult AddToFavourites(int id)
+        {            
+            if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                User? usr = cu.SelectUserInfo(HttpContext.Session.GetString("UserInfo"));
+                int userID = context.Users.FirstOrDefault(u => u.Email == usr.Email).UserID;
+
+                bool isExists = context.Favourites.Any(f => f.ProductID == id);
+                if (isExists == true)
+                {
+                    TempData["Message"] = "This products is already in your Favourited List.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                else
+                {
+                    bool answer = cf.AddToFavourites(id, userID);
+
+                    if (answer)
+                    {
+                        cp.Highlighted_Increase(id);
+                        TempData["Message"] = "The Product has been saved as Favourited.";
+                        return RedirectToAction(nameof(Favourites));
+                    }
+
+                    else
+                    {
+                        TempData["Message"] = "ERROR ! The Product has not been saved as Favourited.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                }                                
+            }
+
+            else
+            {
+                TempData["Message"] = "You should LOGIN first !";
+                return RedirectToAction(nameof(Login));
+            }            
+        }
+
+        public IActionResult RemoveFromFavourites(int id)
+        {
+            if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                string userMail = HttpContext.Session.GetString("UserInfo");
+                int userID = context.Users.FirstOrDefault(u => u.Email == userMail).UserID;
+
+                bool answer = cf.RemoveFromFavs(id, userID);
+                if (answer)
+                {
+                    TempData["Message"] = "The product has been removed from Favourites.";
+                    return RedirectToAction(nameof(Favourites));
+                }
+
+                else
+                {
+                    TempData["Message"] = "ERROR ! The product has not been removed from Favourites.";
+                    return RedirectToAction(nameof(Favourites));
+                }
+            }
+
+            else
+            {
+                TempData["Message"] = "You should LOGIN first !";
+                return RedirectToAction(nameof(Login));
+            }
+        }
+
+        public IActionResult Favourites()
+        {
+            if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                string userMail = HttpContext.Session.GetString("UserInfo");
+                int userID = context.Users.FirstOrDefault(u => u.Email == userMail).UserID;
+
+                List<Favourite>? favList = context.Favourites.Where(f => f.UserID == userID && f.ActiveFav == true).ToList();
+
+                if (favList.Count() == 0)
+                {
+                    TempData["Message"] = "Seems like you haven't saved any products as FAVOURITE.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                else
+                {
+                    return View(favList);
+                }
+
+            }
+            else
+            {
+                TempData["Message"] = "You should LOGIN first !";
+                return RedirectToAction(nameof(Login));
+            }                
         }
         #endregion
 

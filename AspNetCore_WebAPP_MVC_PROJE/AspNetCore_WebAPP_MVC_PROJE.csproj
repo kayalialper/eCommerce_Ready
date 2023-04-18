@@ -71,4 +71,11 @@
     <Folder Include="wwwroot\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\img\fav_icon.ico">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

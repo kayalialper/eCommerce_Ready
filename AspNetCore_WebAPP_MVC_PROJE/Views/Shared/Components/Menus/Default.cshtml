@@ -13,12 +13,12 @@
         <div class="row">
             <div class="col-sm-12 col-md-3 col-lg-3">
                 <div class="logo-area">
-                    <a href="/Home/Index"><img src="~/img/logo.png" alt="logo" /> </a>
+                    <a href="/Home/Index"><img src="~/img/logo_alperkayali_gif.gif" alt="logo" /> </a>
                 </div>
                 @{
                     var email = Accessor.HttpContext.Session.GetString("UserInfo");
                 }
-                <p>@email</p>
+                <p style="color:aqua;">@email</p>
 
                 <div class="row" style="margin-left:10px;">
                     
@@ -96,6 +96,17 @@
                         </li>
 
                         <li>
+                            <a href="/Home/Favourites">
+                                <i class="fa fa-heart"></i>
+                                <div class="nav-select">
+                                    <div class="text_menu">
+                                        FAV ITEMS
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
                             <a href="/Home/Cart">
                                 <div class="cart_area">
                                     <i class="fa fa-shopping-cart"></i>
@@ -160,6 +171,7 @@
             <div class="col-xs-2 col-sm-3 col-md-9 col-lg-9">
                 <nav>
                     <ul>
+                        <li><a href="/Home/DetailedSearch">DETAILED SEARCH</a></li>
                         <li class="active">
                             <a href="/Home/Index">WEB API LIST</a>
                             <div class="sp-dropdown-inner">
@@ -170,13 +182,11 @@
                             </div>
                         </li>
                         <li><a href="/Home/Login">LOGIN</a></li>
-                        <li><a href="/Home/Logout">LOG OUT</a></li>
                         <li><a href="/Home/Register">REGISTER</a></li>
+                        <li><a href="/Home/Logout">LOG OUT</a></li>
                         <li><a href="/Home/AboutUs">ABOUT US</a></li>
                         <li><a href="/Home/ContactUs">CONTACT</a></li>
-                        <li><a href="/Home/DetailedSearch">DETAILED SEARCH</a></li>
-                        <li><a href="/Admin/Login">ADMIN PANEL</a></li>
-                    </ul>
+                        </ul>
                 </nav>                
             </div>            
         </div>
@@ -228,7 +238,7 @@
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                 <div class="nk-search">
                     <div class="search_input">
-                        <input type="text" placeholder="Type and hit enter"/>
+                        <input type="text" placeholder="Type and press ENTER"/>
                     </div>
                 </div>
             </div>

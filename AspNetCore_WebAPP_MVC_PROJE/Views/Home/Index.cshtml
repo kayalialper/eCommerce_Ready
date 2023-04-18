@@ -64,15 +64,15 @@
                                     <span class="sp-price main-price">@Model.ProductOfTheDay.UnitPrice</span>
                                 </p>
                                 <div class="sp-button">
-                                    <div class="row">
-                                        <div class="s-button col-sm-6 col-md-6 col-lg-6 ">
-                                            <a href="/Home/CartProcess/@Model.ProductOfTheDay.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
-                                        </div>
-                                        <div class="s-button col-sm-6 col-md-6 col-lg-6 ">
-                                            <a href="index.html#" data-toggle="tooltip" data-placement="top" title="View Details" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
-                                        </div>
+                                    <div class="s-button">
+                                        <a href="/Home/CartProcess/@Model.ProductOfTheDay.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                     </div>
-
+                                    <div class="s-button">
+                                        <a href="/Home/AddToFavourites/@Model.ProductOfTheDay.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                    </div>
+                                    <div class="s-button last-b ">
+                                        <a href="/Home/ProductDetails/@Model.ProductOfTheDay.ProductID" data-toggle="tooltip" data-placement="top" title="View Detailss" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Detailss" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -186,7 +186,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Detailss" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -245,7 +245,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Detailss" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -303,7 +303,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Details" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -362,7 +362,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Details" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -431,7 +431,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Details" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -491,7 +491,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Details" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>
@@ -551,7 +551,7 @@
                                                     <a href="/Home/CartProcess/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Cart" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-shopping-cart"></i> </a>
                                                 </div>
                                                 <div class="s-button">
-                                                    <a href="index.html#" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
+                                                    <a href="/Home/AddToFavourites/@item.ProductID" data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-heart-o"></i> </a>
                                                 </div>
                                                 <div class="s-button last-b ">
                                                     <a href="/Home/ProductDetails/@item.ProductID" data-toggle="tooltip" data-placement="top" title="View Details" class="black-tooltip add-to-cart all_src_icon"> <i class="fa fa-eye"></i> </a>

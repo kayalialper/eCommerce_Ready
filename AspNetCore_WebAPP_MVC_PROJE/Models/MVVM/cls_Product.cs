@@ -38,6 +38,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
                 return false;
             }
         }
+
         public async Task<Product> ProductDetails(int? id)
         {
             Product? product = await context.Products.FindAsync(id);

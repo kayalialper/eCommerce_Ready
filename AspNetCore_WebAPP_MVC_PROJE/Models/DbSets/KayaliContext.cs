@@ -22,6 +22,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.DbSets
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Content> Contents { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
         public DbSet<vw_MyOrders> vw_MyOrders { get; set; }
 
     }
