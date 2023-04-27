@@ -2,11 +2,6 @@
 @{
     ViewData["Title"] = "SupplierPage";
     Layout = "~/Views/Shared/DefaultLayout.cshtml";
-    KayaliContext context = new KayaliContext();
-    string BrandName = (from p in context.Products
-                           join s in context.Suppliers
-                           on p.CategoryID equals s.SupplierID
-                           select s.BrandName).FirstOrDefault();
 }
 
 <!-- Single product area start  -->
@@ -16,7 +11,7 @@
             <div class="col-sm-9 col-md-9 col-lg-12">
                 <div class="back-to-category">
                     Supplier:
-                    <a title="Products by chosen Supplier" class="product-details">@BrandName</a>
+                    <a title="Products by chosen Supplier" class="product-details">@ViewBag.SupplierName</a>
                 </div>
                 <div class="clear"></div>
                 <div class="row">
@@ -24,7 +19,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="rp-area">
                             <div class="all-p-title">
-                                <h3>Products of <b>@BrandName.ToUpper()</b></h3>
+                                <h3><b>@ViewBag.SupplierName</b> products</h3>
                             </div>
                             <div class="singl-shop ">
                                 <div class="row">
@@ -38,7 +33,7 @@
                                                         <img alt="" src="~/img/@item.PhotoPath" class="first-img" style="height:200px;">
                                                         <img alt="" src="~/img/@item.PhotoPath" class="hover-img" style="height:200px;">
                                                         <div class="quick-view-detail">
-                                                            <a href="single-product.html#">View Detail</a>
+                                                            <a href="/Home/ProductDetails/@item.ProductID">View Details</a>
                                                         </div>
                                                     </div>
                                                     <div class="sp-info-area">

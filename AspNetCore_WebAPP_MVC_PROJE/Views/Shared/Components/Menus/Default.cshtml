@@ -100,7 +100,7 @@
                                 <i class="fa fa-heart"></i>
                                 <div class="nav-select">
                                     <div class="text_menu">
-                                        FAV ITEMS
+                                        FAVOURITES
                                     </div>
                                 </div>
                             </a>
@@ -190,11 +190,6 @@
                 </nav>                
             </div>            
         </div>
-        <div style="display:flex; height:100%; text-align:right;">
-            <span style="color:white;">@await Component.InvokeAsync("Currency")</span>
-            &emsp;
-            <span style="color:white;">@await Component.InvokeAsync("Weather")</span>
-        </div>
     </div>
     
 </div>
@@ -238,7 +233,11 @@
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                 <div class="nk-search">
                     <div class="search_input">
-                        <input type="text" placeholder="Type and press ENTER"/>
+                        <input type="text" id="search" name="search" placeholder="Type and press ENTER"/>
+                        <br />
+                        <div id="dv" style="width:860px; height:auto; margin-top:1px; border-style:solid; background-color:beige; border-color:#8CB3DE; position:absolute; z-index:99999;">
+                            <ul id="sul"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -246,3 +245,28 @@
     </div>
 </div>
 <!-- main menu area end  -->
+
+<script>
+    $("#search").keyup(function(){
+        var id = $("#search").val();
+
+        if (id != "" && $("#search").val().length > 1)
+        {
+            $.ajax({
+                url:'/Home/GetProducts/'+id,
+                type: 'POST',
+                ContentType: "application/json;charset=UTF-8",
+                success: function(result) {
+                    $("#sul").remove();
+                    $("#dv").append("<ul id='sul'>")
+                    $("#sul").append(result)
+                    $("#dv").append("</ul>")
+                }
+            })
+        }
+
+        else{
+            $("#sul").remove();
+        }
+    })
+</script>

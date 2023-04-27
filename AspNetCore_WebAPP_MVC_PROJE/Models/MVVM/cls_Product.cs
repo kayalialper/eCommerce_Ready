@@ -1,4 +1,5 @@
 ﻿using AspNetCore_WebAPP_MVC_PROJE.Models.DbSets;
+using AspNetCore_WebAPP_MVC_PROJE.Models.DbViews;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -267,6 +268,12 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.MVVM
             return products;
         }
 
+        //MAIN PAGE SEARCH INPUT METHOD
+        public List<sp_Search> GetSearchedProducts(string id)
+        {
+            var products = context.sp_Search.FromSqlRaw($"sp_search {id}").ToList();
+            return products;
+        }
 
 
     }

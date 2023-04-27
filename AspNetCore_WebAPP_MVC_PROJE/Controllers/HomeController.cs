@@ -7,6 +7,7 @@ using PagedList.Core;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Specialized;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 {
@@ -157,12 +158,18 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
         #region CATEGORY - SUPPLIER PAGES
         public IActionResult CategoryPage(int id)
         {
+            string catName = context.Categories.FirstOrDefault(c => c.CategoryID == id).CategoryName.ToUpper();
+            ViewBag.CategoryName = catName;
+
             List<Product> products = cp.ProductSelectByCatID(id).OrderBy(p => p.ProductName).ToList();
             return View(products);
         }
 
         public IActionResult SupplierPage(int id)
         {
+            string supName = context.Suppliers.FirstOrDefault(c => c.SupplierID == id).BrandName.ToUpper();
+            ViewBag.SupplierName = supName;
+
             List<Product> productsOfSupplier = cp.ProductSelectBySupID(id).OrderBy(p => p.ProductName).ToList();
             return View(productsOfSupplier);
         }
@@ -608,6 +615,18 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Controllers
 
             ViewBag.Products = cp.DetailedProductSearch(query);
             return View();
+        }
+        #endregion
+
+        #region INDEX SEARCH AREA
+        public PartialViewResult GetProducts(string id)
+        {
+            id = id.ToUpper(new System.Globalization.CultureInfo("tr-TR"));
+            List<sp_Search> uList = cp.GetSearchedProducts(id);
+            string json = JsonConvert.SerializeObject(uList);
+            var response = JsonConvert.DeserializeObject<List<Search>>(json);
+
+            return PartialView(response);
         }
         #endregion
 

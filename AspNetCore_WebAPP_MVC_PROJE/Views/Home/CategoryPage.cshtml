@@ -2,11 +2,6 @@
 @{
     ViewData["Title"] = "CategoryPage";
     Layout = "~/Views/Shared/DefaultLayout.cshtml";
-    KayaliContext context = new KayaliContext();
-    string CategoryName = (from p in context.Products
-                                              join c in context.Categories
-                                              on p.CategoryID equals c.CategoryID
-                                              select c.CategoryName).FirstOrDefault();
 }
 
 <!-- Single product area start  -->
@@ -16,7 +11,7 @@
             <div class="col-sm-9 col-md-9 col-lg-12">
                 <div class="back-to-category">
                     Category:
-                    <a title="Products by chosen Category" class="product-details">@CategoryName</a>
+                    <a title="Products by chosen Category" class="product-details">@ViewBag.CategoryName</a>
                 </div>
                 <div class="clear"></div>
                 <div class="row">
@@ -24,7 +19,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="rp-area">
                             <div class="all-p-title">
-                                <h3>Products of <b>@CategoryName.ToUpper()</b></h3>
+                                <h3><b>@ViewBag.CategoryName</b> products</h3>
                             </div>
                             <div class="singl-shop ">
                                 <div class="row">

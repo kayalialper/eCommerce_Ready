@@ -21,7 +21,6 @@
                     <th scope="col">@Html.DisplayNameFor(model=>model.UcretsizMi)</th>
                     <th scope="col">@Html.DisplayNameFor(model=>model.BiletSatisLinki)</th>
                     <th scope="col">@Html.DisplayNameFor(model=>model.EtkinlikUrl)</th>
-                    <th scope="col">@Html.DisplayNameFor(model=>model.Resim)</th>
                 </tr>
             </thead>
             <tbody id="table_etkinlik">
@@ -42,10 +41,9 @@
                         }
                         else
                         {
-                            <td>Link devre dışı.</td>
+                            <td>Aktif satış yoktur.</td>
                         }
-                        <td><a href="@item.EtkinlikUrl">Etkinlik Sayfası</a></td>
-                        <td><img src="@item.Resim" style="height:200px; width:125px;" /></td>
+                        <td><a href="https://kultursanat.izmir.bel.tr/Etkinlikler/@item.EtkinlikUrl">Etkinlik Sayfası</a></td>
                     </tr>
                 }
 

@@ -12,6 +12,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.DbSets
             var configuration = builder.Build();
             optionsBuilder.UseSqlServer(configuration["ConnectionStrings:KayaliConnection"]);
         }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -24,6 +25,7 @@ namespace AspNetCore_WebAPP_MVC_PROJE.Models.DbSets
         public DbSet<Content> Contents { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<vw_MyOrders> vw_MyOrders { get; set; }
+        public DbSet<sp_Search> sp_Search { get; set; }
 
     }
 }
